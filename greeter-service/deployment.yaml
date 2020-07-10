@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: greeter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: greeter-service
+  template:
+    metadata:
+      labels:
+        app: greeter-service
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9090"
+    spec:
+      containers:
+        - name: greeter
+          command:
+            - /greeter-service
+            - --server_address=:8080
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+          image: 10.9.19.140/test/greeter-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: greeter-port
+            - containerPort: 9090
+              name: metrics-port
+      serviceAccount: micro

@@ -1,0 +1,5 @@
+greeter-service/greeter-service
+greeter-service/greeter
+micro/micro
+*.pb.go
+.idea/

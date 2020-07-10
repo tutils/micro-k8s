@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: micro-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-web
+  template:
+    metadata:
+      labels:
+        app: micro-web
+    spec:
+      containers:
+        - name: micro
+          command:
+            - /micro
+            - --web_address=:8080
+            - --enable_stats=true
+            - web
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+          image: 10.9.19.140/test/micro:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: micro-web-port
+      serviceAccount: micro
