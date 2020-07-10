@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: micro-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-api
+  template:
+    metadata:
+      labels:
+        app: micro-api
+    spec:
+      containers:
+        - name: micro
+          command:
+            - /micro
+            - --api_address=:8080
+            - --api_handler=rpc
+            - --enable_stats=true
+            - api
+          env:
+            - name: MICRO_REGISTRY
+              value: kubernetes
+            - name: MICRO_AUTH_NAMESPACE
+              value: ' '
+            - name: MICRO_API_NAMESPACE
+              value: ' '
+          image: 10.9.19.140/test/micro:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: micro-api-port
+      serviceAccount: micro

@@ -1,0 +1,15 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: micro-api
+  namespace: default
+
+spec:
+  rules:
+    - host: micro-api.hkdev
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: micro-api
+              servicePort: 8080

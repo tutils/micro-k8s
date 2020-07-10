@@ -24,6 +24,8 @@ spec:
           env:
             - name: MICRO_REGISTRY
               value: kubernetes
+            - name: PROMETHEUS_REPORTER_ADDRESS
+              value: jaegertracing-agent:6831
           image: 10.9.19.140/test/greeter-service:latest
           imagePullPolicy: Always
           ports:
